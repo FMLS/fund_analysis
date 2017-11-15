@@ -16,5 +16,13 @@ urls = {
     }
 }
 
+pg_conf = {
+    'databases': 'fund',
+    'user': 'pg_admin',
+    'host': '127.0.0.1',
+    'port': '5432',
+    'password':'',
+}
+
 if '__main__' == __name__:
     print fund_data_day

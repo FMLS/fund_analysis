@@ -25,7 +25,7 @@ pages:(?P<pages>\d+).*
 fund_day_addr_info = gconf.urls['fund_data_day']
 fund_day_url = fund_day_addr_info['url']
 
-class FundInfo(object):
+class Fund(object):
     def __init__(self, code):
         self.code = code
         self.per = 10
@@ -71,6 +71,6 @@ class FundInfo(object):
     
 
 if '__main__' == __name__:
-    obj = FundInfo('001986')
+    obj = Fund('001986')
     for item in obj.collect_data_per_day():
         print item
