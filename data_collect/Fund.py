@@ -4,6 +4,7 @@ import re
 import requests
 
 from conf import gconf
+from store.FundDailyData import FundDailyData
 
 pattern_data = r'''
 <tr>
@@ -60,6 +61,7 @@ class Fund(object):
             result = requests.get(fund_day_url, url_args)
             m = re.finditer(pattern_data, result.text, re.VERBOSE)
             for item in m:
+                record['code'] = self.code
                 record['date'] = item.group('date')
                 record['nav']  = item.group('nav')
                 record['jj_lggz']     = item.group('jj_lggz')
@@ -68,9 +70,19 @@ class Fund(object):
                 record['redemption_status']   = item.group('dividends')
                 
                 yield record
-    
+
+    def save_data_per_day(self):
+        for item in obj.collect_data_per_day():
+            record = FundDailyData()
+            record.code = item['code']
+            record.date = item['date']
+            record.nav  = item['nav']
+            record.jj_lggz     = item['jj_lggz']
+            record.growth_rate = item['growth_rate']
+            record.subscription_status = item['subscription_status']
+            record.redemption_status   = item['redemption_status']
+            record.insert()
 
 if '__main__' == __name__:
     obj = Fund('001986')
-    for item in obj.collect_data_per_day():
-        print item
+    obj.save_data_per_day()
