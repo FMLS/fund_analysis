@@ -6,7 +6,7 @@ import requests
 from conf import gconf
 from store.FundDailyData import FundDailyData
 
-pattern_data = r'''
+daily_data_pattern = r'''
 <tr>
 <td>(?P<date>\d{4}-\d{1,2}-\d{1,2})</td>
 <td\sclass='.*?'>(?P<nav>[\d\.]*)</td>
@@ -18,7 +18,7 @@ pattern_data = r'''
 </tr>
 '''
 
-pattern_params = r'''
+daily_params_pattern = r'''
 records:(?P<records>\d+).*
 pages:(?P<pages>\d+).*
 '''
@@ -41,14 +41,14 @@ class Fund(object):
         url_args['per'] = self.per
         
         result = requests.get(fund_day_url, url_args)
-        m = re.search(pattern_params, result.text, re.VERBOSE)
+        m = re.search(daily_params_pattern, result.text, re.VERBOSE)
         if m:
             records = int(m.group('records'))
             pages   = int(m.group('pages'))
         
         return {'records':records, 'pages': pages}
 
-    def collect_data_per_day(self):
+    def get_daily_data(self):
         res = self.get_day_data_total_pages()
 
         url_args = fund_day_addr_info['url_args']
@@ -59,7 +59,7 @@ class Fund(object):
         for i in range(1, res['pages'] + 1):
             url_args['page'] = i
             result = requests.get(fund_day_url, url_args)
-            m = re.finditer(pattern_data, result.text, re.VERBOSE)
+            m = re.finditer(daily_data_pattern, result.text, re.VERBOSE)
             for item in m:
                 record['code'] = self.code
                 record['date'] = item.group('date')
@@ -70,18 +70,6 @@ class Fund(object):
                 record['redemption_status']   = item.group('dividends')
                 
                 yield record
-
-    def save_data_per_day(self):
-        for item in obj.collect_data_per_day():
-            record = FundDailyData()
-            record.code = item['code']
-            record.date = item['date']
-            record.nav  = item['nav']
-            record.jj_lggz     = item['jj_lggz']
-            record.growth_rate = item['growth_rate']
-            record.subscription_status = item['subscription_status']
-            record.redemption_status   = item['redemption_status']
-            record.insert()
 
 if '__main__' == __name__:
     obj = Fund('001986')
