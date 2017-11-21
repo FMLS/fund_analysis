@@ -18,7 +18,10 @@ class FundOrgData(object):
             record.growth_rate = item['growth_rate']
             record.subscription_status = item['subscription_status']
             record.redemption_status   = item['redemption_status']
-            record.insert()
+            if not record.exists():
+                record.insert()
+            else:
+                print 'skip'
 
 if '__main__' == __name__:
     fund_obj = Fund('001986')

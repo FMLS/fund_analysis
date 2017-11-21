@@ -48,16 +48,22 @@ class BaseStore(object):
     def table_name(self):
         raise AttributeError('you must inherit this method')
 
-    def insert(self):
+    def get_attr_map(self):
         attrs_map = {}
         attrs = self._get_pub_attribute()
         for attr in attrs:
             attrs_map[attr] = getattr(self, attr)
+        return attrs_map
+
+    def insert(self):
+        attrs_map = self.get_attr_map()
         sql = self._gen_insert_sql()
-        print attrs_map
         self.__cursor.execute(sql, attrs_map)
         self.__conn.commit()
 
+    def execute(self, sql, attrs):
+        self.__cursor.execute(sql, attrs)
+        return self.__cursor.fetchall()
 
 if '__main__' == __name__:
     obj = BaseStore()

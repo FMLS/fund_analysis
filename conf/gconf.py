@@ -15,10 +15,15 @@ urls = {
         }
     },
     'fund_data_portfolio': {
-        'url': ''
-
+        'url': 'http://fund.eastmoney.com/Data/FundDataPortfolio_Interface.aspx',
+        'dt' : 14,
+        'mc' :'returnjson',
+        'ft' :'all',
+        'pn' :5000,
+        'pi' :1,
+        'sc' :'abbname',
+        'st' :'asc',
     }
-    http://fund.eastmoney.com/Data/FundDataPortfolio_Interface.aspx?dt=14&mc=returnjson&ft=all&pn=5000&pi=1&sc=abbname&st=asc
 }
 
 pg_conf = {

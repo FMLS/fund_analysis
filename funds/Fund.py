@@ -67,7 +67,7 @@ class Fund(object):
                 record['jj_lggz']     = item.group('jj_lggz')
                 record['growth_rate'] = item.group('growth_rate')
                 record['subscription_status'] = item.group('subscription_status')
-                record['redemption_status']   = item.group('dividends')
+                record['redemption_status']   = item.group('redemption_status')
                 
                 yield record
 

@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS public.fund_daily_data (
     dividends     varchar(128) DEFAULT '',
     create_time   timestamp without time zone NOT NULL DEFAULT now(),
 
-    PRIMARY KEY ("id")
+    PRIMARY KEY (code, date)
 );
