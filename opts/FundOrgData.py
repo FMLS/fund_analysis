@@ -8,7 +8,7 @@ class FundOrgData(object):
     def __init__(self, fund_obj):
         self.__fund_obj = fund_obj
 
-    def save_daily_data(self):
+    def update_daily_data(self):
         for item in self.__fund_obj.get_daily_data():
             record = FundDailyData()
             record.code = item['code']
@@ -23,7 +23,10 @@ class FundOrgData(object):
             else:
                 print 'skip'
 
+    def get_daily_data(self):
+        for 
+
 if '__main__' == __name__:
     fund_obj = Fund('001986')
     db_obj = FundOrgData(fund_obj)
-    db_obj.save_daily_data()
+    db_obj.update_daily_data()

@@ -1,56 +1,50 @@
+#encoding=utf-8
 import time
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-
 from funds.Fund import Fund
 
-# animation function.  This is called sequentially
-#def animate(i):
-#    data = np.random.random((255, 255))
-#    im.set_array(data)
-#    return [im]
-#
-#print animate(1)
-#anim = animation.FuncAnimation(fig, animate, frames=200, interval=60, blit=True)
-#plt.show()
+from matplotlib.animation import FuncAnimation
 
-#plt.axis([0, 100, 0, 1])
-#plt.ion()
-#
-#for i in range(100):
-#    y = np.random.random()
-#    plt.plot(i, y)
-#    plt.pause(0.01)
-
-"""
-A simple example of an animated plot
-"""
 fund_obj = Fund('001986')
-y = [float(item['jj_lggz']) for item in fund_obj.get_daily_data()]
-x = [x + 1 for x in xrange(len(y))]
-plt.axis([1, len(y) + 1, 0.9, 1.6])
-plt.plot(x,y)
+
+fig, ax = plt.subplots()
+xdata, ydata = [], []
+ln, = plt.plot([], [], 'g', animated=True)
+
+
+def init():
+    ax.set_xlim(0, 400)
+    ax.set_ylim(0.8, 1.6)
+
+    ax.set_xlabel('days')
+    ax.set_ylabel('nav')
+    return ln,
+
+i = 1
+def update(frame):
+    xdata.append(i)
+    ydata.append(frame['nav'])
+    ln.set_data(xdata, ydata)
+    global i
+    i = i + 1
+    return ln,
+
+ani = FuncAnimation(fig, update, frames=fund_obj.get_daily_data(),
+                    init_func=init, blit=True, interval=50)
 plt.show()
 
-
-#fig, ax = plt.subplots()
+#x = [1,2,3]
+#y = [5,7,4]
 #
-#x = np.arange(0, 1)
-#print x
-#line, = ax.plot(x, np.sin(x))
+#x2 = [1,2,3]
+#y2 = [10,14,12]
+#plt.plot(x, y, label='First Line')
+#plt.plot(x2, y2, label='Second Line')
 #
-#
-#def animate(i):
-#    line.set_ydata(np.sin(x + i/10.0))  # update the data
-#    return line,
-#
-#
-## Init only required for blitting to give a clean slate.
-#def init():
-#    line.set_ydata(np.ma.array(x, mask=True))
-#    return line,
-#
-#ani = animation.FuncAnimation(fig, animate, np.arange(1, 200), init_func=init,
-#                              interval=25, blit=True)
+#plt.xlabel('Plot Number')
+#plt.ylabel('Important var')
+#plt.title('Interesting Graph\nCheck it out')
+#plt.legend()
 #plt.show()
