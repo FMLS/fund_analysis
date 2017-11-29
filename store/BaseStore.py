@@ -61,7 +61,7 @@ class BaseStore(object):
         self.__cursor.execute(sql, attrs_map)
         self.__conn.commit()
 
-    def execute(self, sql, attrs):
+    def execute(self, sql, attrs=None):
         self.__cursor.execute(sql, attrs)
         return self.__cursor.fetchall()
 

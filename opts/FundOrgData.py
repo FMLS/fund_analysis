@@ -1,7 +1,10 @@
 #encoding=utf-8
 
+from threading import Timer
+
 from funds.Fund import Fund
 from store.FundDailyData import FundDailyData
+from store.FundEstiData  import FundEstiData
 
 class FundOrgData(object):
     
@@ -24,9 +27,23 @@ class FundOrgData(object):
                 print 'skip'
 
     def get_daily_data(self):
-        for 
+        pass
+
+    def do_update_estimation_data(self):
+        res = self.__fund_obj.get_real_time_estimation()
+        record = FundEstiData()
+        print res
+        record.code = res['fundcode']
+        record.gsz  = res['gsz']
+        record.gszzl = res['gszzl']
+        record.gztime = res['gztime']
+        record.insert()
+
+    def update_estimation_data(self):
+        timer = Timer(30, self.do_update_estimation_data())
+        timer.start()
 
 if '__main__' == __name__:
     fund_obj = Fund('001986')
     db_obj = FundOrgData(fund_obj)
-    db_obj.update_daily_data()
+    db_obj.update_estimation_data()

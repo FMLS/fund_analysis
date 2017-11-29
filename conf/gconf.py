@@ -2,6 +2,7 @@
 import random
 
 urls = {
+    #基金每日数据
     'fund_data_day' : {
         'url': 'http://fund.eastmoney.com/f10/F10DataApi.aspx',
         'url_args': {
@@ -14,15 +15,25 @@ urls = {
             'rt'   : random.random()
         }
     },
+    #基金经理数据
     'fund_data_portfolio': {
         'url': 'http://fund.eastmoney.com/Data/FundDataPortfolio_Interface.aspx',
-        'dt' : 14,
-        'mc' :'returnjson',
-        'ft' :'all',
-        'pn' :5000,
-        'pi' :1,
-        'sc' :'abbname',
-        'st' :'asc',
+        'url_args':{
+            'dt' : 14,
+            'mc' :'returnjson',
+            'ft' :'all',
+            'pn' :5000,
+            'pi' :1,
+            'sc' :'abbname',
+            'st' :'asc',
+        }
+    },
+    #净值预测
+    'fund_gsz': {
+        'url': 'http://fundgz.1234567.com.cn/js/%s.js',
+        'url_args': {
+            'rt': 151149143616
+        }
     }
 }
 
