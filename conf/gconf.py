@@ -46,4 +46,4 @@ pg_conf = {
 }
 
 if '__main__' == __name__:
-    print fund_data_day
+    print (fund_data_day)

@@ -23,7 +23,7 @@ class UpdateEstiData(threading.Thread):
             if not record.exists():
                 record.insert()
             else:
-                print record, 'exists'
+                print (record, 'exists')
             time.sleep(5)
 
     def run(self):

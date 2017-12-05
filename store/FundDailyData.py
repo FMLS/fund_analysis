@@ -31,7 +31,7 @@ if '__main__' == __name__:
     obj = FundDailyData()
     ls = obj.get_columns('date', 'desc')
     for i in ls:
-        print i[2]
+        print (i[2])
     #obj.nav = 12
     #obj.code = '0011'
     #obj.date = '2017-11-11'

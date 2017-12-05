@@ -27,4 +27,4 @@ class FundEstiData(BaseStore):
 
 if '__main__' == __name__:
     obj = FundEstiData()
-    print obj.get_latest_record()
+    print (obj.get_latest_record())

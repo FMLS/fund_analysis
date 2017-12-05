@@ -83,19 +83,24 @@ class Fund(object):
         fund_gsz = gconf.urls['fund_gsz']
         url = fund_gsz['url'] % self.code
         url_args = fund_gsz['url_args']
-        result = requests.get(url, url_args)
-        m = re.search(gsz_pattern, result.text, re.VERBOSE)
-        if m:
-            res = json.loads(m.group(1))
+
+        try:
+            result = requests.get(url, url_args)
+            m = re.search(gsz_pattern, result.text, re.VERBOSE)
+            if m:
+                res = json.loads(m.group(1))
+        except requests.exceptions.ConnectionError as e:
+            print(str(e))
+
         return res
 
     def get_latest_estimation(self):
         est = FundEstiData(self)
-        print est.get_latest_record()
+        print (est.get_latest_record())
 
 
 if '__main__' == __name__:
     obj = Fund('001986')
     #obj.save_data_per_day()
-    print obj.get_real_time_estimation()
-    print obj.get_latest_estimation()
+    print (obj.get_real_time_estimation())
+    print (obj.get_latest_estimation())

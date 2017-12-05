@@ -17,8 +17,8 @@ class BaseStore(object):
                                     host=pg_conf['host'], port=pg_conf['port'],
                                     password=pg_conf['password'])
             return conn
-        except BaseException, err:
-            print 'error: ', type(err)
+        except BaseException as err:
+            print ('error: ', type(err))
             sys.exit(0)
     
 
