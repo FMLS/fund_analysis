@@ -14,17 +14,21 @@ class UpdateEstiData(threading.Thread):
 
     def do_update_estimation_data(self):
         while True:
-            res = self.__fund_obj.get_real_time_estimation()
-            record = FundEstiData()
-            record.code = res['fundcode']
-            record.gsz  = res['gsz']
-            record.gszzl = res['gszzl']
-            record.gztime = res['gztime']
-            if not record.exists():
-                record.insert()
-            else:
-                print (record, 'exists')
-            time.sleep(5)
+            try:
+                res = self.__fund_obj.get_real_time_estimation()
+                record = FundEstiData()
+                record.code = res['fundcode']
+                record.gsz  = res['gsz']
+                record.gszzl = res['gszzl']
+                record.gztime = res['gztime']
+                if not record.exists():
+                    record.insert()
+                else:
+                    print (record, 'exists')
+                time.sleep(5)
+            except Exception as err:
+                time.sleep(10)
+                print(err)
 
     def run(self):
         self.do_update_estimation_data()
